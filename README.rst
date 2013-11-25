@@ -14,6 +14,7 @@ Authors
 - **David W. Hogg** (NYU)
 - **Jacob Vanderplas** (UW)
 - **Károly Kiripolszky** (STFU)
+
   interactive console
 
 
@@ -22,11 +23,11 @@ Usage
 
 Interactive Cube
 ~~~~~~~~~~~~~~~~
-To use the matplotlib-based interactive cube, run 
+To use the matplotlib-based interactive cube, run::
 
      python code/cube_interactive.py
 
-If you want a cube with a different number of sides, use e.g.
+If you want a cube with a different number of sides, use e.g.::
 
      python code/cube_interactive.py 5
 
@@ -35,19 +36,19 @@ This will create a 5x5x5 cube
 This code should currently be considered to be in beta --
 there are several bugs and the GUI has an incomplete set of features
 
-To control the interactive cube using an interactive console, type
+To control the interactive cube using an interactive console, type::
 
     code/console
 
-or
+or::
 
    python -i code/console.py
 
-In the console you can execute algorithms written in the Singmaster notation, e.g.
+In the console you can execute algorithms written in the Singmaster notation, e.g::
 
    mvs("F2B2R2L2U2D2")
 
-There's also an algorithm library you can access using the `algos` keyword.
+There's also an algorithm library you can access using the `algos` keyword::
 
    # this is the same as the last example (checkers pattern)
    mvs(algos.patt.checkers)
