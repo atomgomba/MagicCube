@@ -48,8 +48,8 @@ class Cube:
     # define some attribues
     default_plastic_color = 'black'
     default_face_colors = ["w", "#ffcf00",
+                           "#ff6f00","#cf0000",
                            "#00008f", "#009f0f",
-                           "#ff6f00", "#cf0000",
                            "gray", "none"]
     base_face = np.array([[1, 1, 1],
                           [1, -1, 1],
@@ -196,8 +196,9 @@ class Cube:
 
     def draw_interactive(self):
         fig = plt.figure(figsize=(5, 5))
-        fig.add_axes(InteractiveCube(self))
-        return fig
+        ic = InteractiveCube(self)
+        fig.add_axes(ic)
+        return ic
 
 
 class InteractiveCube(plt.Axes):
@@ -469,4 +470,6 @@ if __name__ == '__main__':
 
     c.draw_interactive()
 
-    plt.show()
+    plt.show(block=False)
+else:
+    N = 3
