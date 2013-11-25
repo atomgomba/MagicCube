@@ -1,5 +1,6 @@
-#!/usr/bin/env python2
 # coding: utf-8
+#
+# Interactive console helper for MagicCube
 
 from cube_interactive import Cube, plt
 import algos
@@ -146,11 +147,6 @@ def init():
     plt.show(block=False)
 
 
-# initialize regardless of module role
-
-show_help()
-init()
-
-# Example:
-# mvs("F2L2R2B2")
-
+if __name__ == "__main__":
+    show_help()
+    init()
