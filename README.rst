@@ -7,11 +7,15 @@ It had to happen someday.  Somebody stop me!
    :alt: cube views
    :align: left
 
+
 Authors
 -------
 
 - **David W. Hogg** (NYU)
 - **Jacob Vanderplas** (UW)
+- **Károly Kiripolszky** (STFU)
+  interactive console
+
 
 Usage
 -----
@@ -31,6 +35,23 @@ This will create a 5x5x5 cube
 This code should currently be considered to be in beta --
 there are several bugs and the GUI has an incomplete set of features
 
+To control the interactive cube using an interactive console, type
+
+    code/console
+
+or
+
+   python -i code/console.py
+
+In the console you can execute algorithms written in the Singmaster notation, e.g.
+
+   mvs("F2B2R2L2U2D2")
+
+There's also an algorithm library you can access using the `algos` keyword.
+
+   # this is the same as the last example (checkers pattern)
+   mvs(algos.patt.checkers)
+
 Controls
 ********
 - **Click and drag** to change the viewing angle of the cube.  Holding shift
@@ -41,6 +62,18 @@ Controls
   shift key to rotate counter-clockwise.  Hold a number i to turn the slab
   at a depth i (e.g. for a 3x3 cube, holding "1" and pressing "L" will turn
   the center slab).
+
+Other commands
+**************
+
+You can control the cube using python commands in the interactive console.
+
+Use the command `mv()` to move a single layer, `mvs()` to execute a sequence
+of moves (algorithm in Singmaster notation) and `mvsd()` to do the same,
+but with verbose output.
+
+To solve the cube type `solve()` (or `so()` for short), to show the history of
+moves type `history()` (or `hi()` for short).
 
 Other
 ~~~~~
