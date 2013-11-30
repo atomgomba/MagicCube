@@ -2,6 +2,7 @@
 #
 # Interactive console helper for MagicCube
 
+import random
 from cube_interactive import Cube, plt
 import algos
 
@@ -10,11 +11,12 @@ import algos
 c, ic = None, None
 
 
-def mv(face="F", turns=1, layer=0):
+def mv(face="F", turns=1, layer=0, dontdraw=False):
     """Move one layer.
     """
     c.rotate_face(face, turns, layer)
-    ic._draw_cube()
+    if not dontdraw:
+        ic._draw_cube()
 
 
 def mvs(algo, debug=False):
@@ -83,18 +85,20 @@ def mvs(algo, debug=False):
         # update current move
         moves[pos].update(move)
 
-    for kwargs in moves:
+    for n, kwargs in enumerate(moves):
         if kwargs.has_key("multi"):
             del kwargs["multi"]
         if debug:
             print(kwargs)
-        mv(**kwargs)
+        mv(dontdraw=(n < (len(moves) - 2)), **kwargs)
+
+    return algo
 
 
 def mvsd(algo):
     """Like mvs() with debug enabled.
     """
-    mvs(algo, debug=True)
+    return mvs(algo, debug=True)
 
 
 def solve():
@@ -121,21 +125,59 @@ def hi():
     return history()
 
 
+def scramble(moves=23):
+    """Scramble the cube in the given number of moves.
+        :param moves: Maximum number of moves (default: 23)
+    """
+    if moves < 1:
+        raise ValueError("moves must be greater than zero")
+    FACES = "FBUDLR"
+    algo = ""
+    move_ct = 0
+    while move_ct < moves:
+        face = random.choice(FACES)
+        # add face
+        algo += face
+        if random.gauss(1, 0.5) < 1.0:
+            # add random number
+            x = random.randint(2, 3)
+            if moves < (move_ct + x):
+                if move_ct < (moves - 1):
+                    move_ct += 1
+                    continue
+                else:
+                    break
+            algo += str(x)
+            move_ct += x
+        if random.gauss(1, 10) < 7:
+            # add invert move
+            algo += "'"
+        move_ct += 1
+
+    return mvs(algo)
+
+
+def sc(moves=23):
+    """Like scramble(), but solves the cube before scrambling.
+    """
+    solve()
+    return scramble(moves)
+
+
 def show_help():
     """Show this text.
     """
-    print("""Interactive Console for Magic Cube
+    commands = [mv, mvs, mvsd, solve, so, history, hi, scramble, sc, show_help]
+    txt = ["""Interactive Console for Magic Cube
 
-Available commands:""")
-
-    commands = [mv, mvs, mvsd, solve, so, history, hi, show_help]
-    for cmd in commands:
-        print("    {:<9}: {}".format(cmd.__name__, cmd.__doc__.strip()))
-    print("""
+Available commands:"""]
+    txt += ["    {:<9}: {}".format(cmd.__name__, cmd.__doc__.strip()) for cmd in commands]
+    txt.append("""
 You can access a library of algorithms using the algos module (type: `dir(algos)`)
 
 Type `help(<command>)` to get more help on a command.
 ---""")
+    print("\n".join(txt))
 
 
 def init():
@@ -149,4 +191,5 @@ def init():
 
 if __name__ == "__main__":
     show_help()
-    init()
+
+init()
