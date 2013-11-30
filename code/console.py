@@ -43,7 +43,7 @@ def mvs(algo, debug=False):
         # on two layers token
         elif token in "fbudlr":
             moves.append(dict(face=token.upper(), turns=1, layer=0))
-            moves.append(dict(face=token.upper(), turns=1, layer=1, multi=1))
+            moves.append(dict(face=token.upper(), turns=1, layer=1))
             pos += 2
             continue
         elif token in "xyz":
@@ -55,8 +55,8 @@ def mvs(algo, debug=False):
             elif token is "z":
                 f = "F"
             moves.append(dict(face=f, turns=1, layer=0))
-            moves.append(dict(face=f, turns=1, layer=1, multi=1))
-            moves.append(dict(face=f, turns=1, layer=2, multi=2))
+            moves.append(dict(face=f, turns=1, layer=1))
+            moves.append(dict(face=f, turns=1, layer=2))
             pos += 3
             continue
         # get current move to modify
@@ -74,20 +74,17 @@ def mvs(algo, debug=False):
             print("{}\n{}".format(msg + algo, posmsg))
             return
         # if this is a multi-layer move
-        if move.has_key("multi"):
-            multi = move["multi"]
-            if 0 < multi:
-                # update other layers
-                for m in range(1, multi + 1):
-                    other = move.copy()
-                    other["layer"] = moves[pos - m]["layer"]
-                    moves[pos - m].update(other)
+        layer = move.get("layer", 0)
+        if 0 < layer:
+            # update other layers
+            for i in range(1, layer):
+                other = move.copy()
+                other["layer"] = moves[pos - i]["layer"]
+                moves[pos - i].update(other)
         # update current move
         moves[pos].update(move)
 
     for n, kwargs in enumerate(moves):
-        if kwargs.has_key("multi"):
-            del kwargs["multi"]
         if debug:
             print(kwargs)
         mv(dontdraw=(n < (len(moves) - 2)), **kwargs)
